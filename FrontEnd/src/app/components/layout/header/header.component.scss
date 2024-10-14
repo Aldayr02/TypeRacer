@@ -1,0 +1,110 @@
+// Variables
+$primary-color: #af07bb;
+$text-color: #fde5ff;
+$background-color: #550058;
+$button-color: #f02eff;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+}
+
+// Header Styles
+.header {
+  background-color: $background-color;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+
+  .header-container {
+    @include flex-center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+
+    .logo {
+        @include flex-center;
+        text-decoration: none;
+        color: $text-color;
+        &:hover {
+            color: $primary-color;
+          }
+    }
+    
+    .icon {
+      fill: $text-color;
+      margin-right: 0.5rem;
+    }
+
+    title {
+      font-size: 1.5rem;
+      font-weight: bold;
+
+      
+    }
+
+    nav{
+        .nav-list{
+            @include flex-center;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            
+        }
+        .nav-item {
+          margin-left: 1.5rem;
+      
+          &:first-child {
+            margin-left: 0;
+          }
+        }
+
+        .nav-link {
+          color: $text-color;
+          text-decoration: none;
+          font-weight: 500;
+          transition: color 0.3s ease;
+      
+          &:hover {
+            color: $primary-color;
+          }
+      
+          &--button {
+            background-color: $button-color;
+            color: $text-color;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+      
+            &:hover {
+              background-color: darken($button-color, 50%);
+              color: $text-color;
+            }
+          }
+        }
+    }
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .header {
+    &__container {
+      flex-direction: column;
+    }
+
+    &__nav {
+      margin-top: 1rem;
+
+      &-list {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      &-item {
+        margin: 0.5rem 0;
+      }
+    }
+  }
+}
