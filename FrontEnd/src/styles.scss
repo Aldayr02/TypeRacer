@@ -1,5 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
-html, body{
+html, body {
+    height: 100%;
     margin: 0;
-    background-color: #9708a0;
-}
+    background-color: #430c11;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  main {
+    flex: 1;
+  }
+  
