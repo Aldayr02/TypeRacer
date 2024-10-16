@@ -1,0 +1,14 @@
+input.ng-dirty.ng-invalid {
+    border-color: red;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    h1 {
+        color: white;
+    }
+}
