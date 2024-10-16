@@ -1,0 +1,34 @@
+<main>
+    <div>
+        <h1>Register</h1>
+        <form [formGroup]="form" (submit)="register()">
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Name</mat-label>
+                    <input matInput placeholder="name" type="text" formControlName="name">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="email" type="text" formControlName="email">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Password</mat-label>
+                    <input matInput placeholder="Password" type="password" formControlName="password">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Confirm Password</mat-label>
+                    <input matInput placeholder="confirm password" type="password" formControlName="confirm">
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-flat-button [disabled]="form.invalid">Register</button>
+            </div>
+        </form>
+    </div>
+</main>
