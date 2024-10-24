@@ -1,0 +1,151 @@
+// Variables
+$primary-color: #ea4959;
+$secondary-color: #e74c3c;
+$text-color: #ffffff;
+$background-color: #f4f4f4;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Global styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: $text-color;
+  background-color: $background-color;
+}
+
+
+// Main content styles
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  color: #333;
+}
+
+// Hero section
+.hero {
+  text-align: center;
+  padding: 4rem 0;
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: $primary-color;
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #ffffff;
+  }
+
+  .cta-button {
+    background-color: $secondary-color;
+    color: $text-color;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken($secondary-color, 10%);
+    }
+  }
+}
+
+// Features section
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 0.5rem;
+
+  .feature {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+
+    h2 {
+      color: $primary-color;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: #666;
+    }
+  }
+}
+
+// Stats section
+.stats {
+  margin-top: 4rem;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 2rem;
+    color: $primary-color;
+  }
+
+  .stat-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+    .stat {
+      padding: 1rem;
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: $secondary-color;
+        display: block;
+      }
+
+      .stat-label {
+        font-size: 1rem;
+        color: #666;
+      }
+    }
+  }
+}
+
+
+// Responsive design
+@media (max-width: 768px) {
+  
+  .hero {
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .stats .stat-container {
+    flex-direction: column;
+  }
+
+  
+}
