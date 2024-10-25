@@ -5,8 +5,8 @@ class UserController {
     const { username, password } = req.body;
 
     // Hardcoded credentials for testing
-    const hardcodedUsername = 'admin';
-    const hardcodedPassword = '1234';
+    const hardcodedUsername = 'uziel@gmail.com';
+    const hardcodedPassword = 'Hola1234';
 
     if (username === hardcodedUsername && password === hardcodedPassword) {
       // Create a token
