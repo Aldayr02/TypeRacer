@@ -1,7 +1,8 @@
 const express = require('express');
-const cors = require('cors');
 const { config } = require('dotenv');
 const routes = require('./routes');
+const { Server } = require('socket.io');
+const leaderboardController = require('./controllers/leaderboard-controller');
 
 // init dotenv config
 config();
@@ -12,12 +13,22 @@ const port = process.env.PORT || 3000;
 
 // middleware
 app.use(express.json());
-app.use(cors({
-  origin: 'http://localhost:4200'
-}));
 app.use(routes);
 
 // listen
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`App running in port ${port}`);
+});
+
+const io = new Server(server);
+
+io.on('connection', (socket) => {
+  console.log(`New client connected: ${socket.id}`);
+
+  // Delegar manejo al controlador
+  leaderboardController.socketHandler(socket, io);
+
+  socket.on('disconnect', () => {
+    console.log(`Client disconnected: ${socket.id}`);
+  });
 });
