@@ -3,6 +3,7 @@ const { config } = require('dotenv');
 const routes = require('./routes');
 const { Server } = require('socket.io');
 const leaderboardController = require('./controllers/leaderboard-controller');
+const cors = require('cors');
 
 // init dotenv config
 config();
@@ -13,6 +14,7 @@ const port = process.env.PORT || 3000;
 
 // middleware
 app.use(express.json());
+app.use(cors({ origin: 'http://localhost:4200' }));
 app.use(routes);
 
 // listen
