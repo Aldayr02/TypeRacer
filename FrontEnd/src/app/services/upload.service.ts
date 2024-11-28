@@ -17,7 +17,7 @@ export class UploadService {
   uploadImage(file: File): Observable<UrlImage> {
     const formData = new FormData();
     console.log(this.UrlBg);
-    formData.append('foto', file, file.name); // 'foto' debe coincidir con el nombre en tu backend
+    formData.append('foto', file, 'cheems.png'); // 'foto' debe coincidir con el nombre en tu backend
     console.log('formData', formData);
     console.log('file', file);
 
