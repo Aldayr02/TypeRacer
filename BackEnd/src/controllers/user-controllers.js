@@ -1,5 +1,4 @@
 const User = require('../models/users.models');
-const { response_status } = require('../utils/response_status');
 
 class UsersController {
   register(req, res) {
@@ -12,10 +11,10 @@ class UsersController {
 
     User.create(data)
       .then((response) => {
-        res.status(response_status.CREATED).send(response);
+        res.status(201).send(response);
       })
       .catch((e) => {
-        res.status(response_status.BAD_REQUEST).send('Failed to create user' + e);
+        res.status(400).send('Failed to create user' + e);
       });
   }
 
@@ -36,13 +35,13 @@ class UsersController {
           email: response.email,
         };
         const token = "123";
-        res.status(response_status.SUCCESS).send({ token });
+        res.status(200).send({ token });
 
         //const send_token = create(user_data);
         //res.status(response_status.SUCCESS).send({ token: send_token });
       })
       .catch((e) => {
-        res.status(response_status.BAD_REQUEST).send(`Invalid credentials - ${e}`);
+        res.status(400).send(`Invalid credentials - ${e}`);
       });
   }
 }
