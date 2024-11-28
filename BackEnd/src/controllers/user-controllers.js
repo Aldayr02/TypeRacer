@@ -1,27 +1,50 @@
-const jwt = require('jsonwebtoken');
+const User = require('../models/users.models');
+const { response_status } = require('../utils/response_status');
 
-class UserController {
-  login = (req, res) => {
-    const { username, password } = req.body;
+class UsersController {
+  register(req, res) {
+    const data = {
+      name: req.body.name,
+      email: req.body.email,
+      //password: hashPassword(req.body.password),
+      password: req.body.password
+    };
 
-    // Hardcoded credentials for testing
-    const hardcodedUsername = 'uziel@gmail.com';
-    const hardcodedPassword = 'Hola1234';
-
-    if (username === hardcodedUsername && password === hardcodedPassword) {
-      // Create a token
-      const token = jwt.sign({ username }, 'your_jwt_secret', { expiresIn: '1h' });
-
-      return res.json({
-        message: 'Login successful',
-        token,
+    User.create(data)
+      .then((response) => {
+        res.status(response_status.CREATED).send(response);
+      })
+      .catch((e) => {
+        res.status(response_status.BAD_REQUEST).send('Failed to create user' + e);
       });
-    }
+  }
 
-    return res.status(401).json({
-      message: 'Invalid credentials',
-    });
-  };
+  login(req, res) {
+    const data = {
+      email: req.body.email,
+      //password: hashPassword(req.body.password)
+      password: req.body.password
+    };
+
+    User.findOne(data)
+      .then((response) => {
+        if (response == null) {
+          throw new Error(`${response.errors.message}`);
+        }
+        const user_data = {
+          name: response.name,
+          email: response.email,
+        };
+        const token = "123";
+        res.status(response_status.SUCCESS).send({ token });
+
+        //const send_token = create(user_data);
+        //res.status(response_status.SUCCESS).send({ token: send_token });
+      })
+      .catch((e) => {
+        res.status(response_status.BAD_REQUEST).send(`Invalid credentials - ${e}`);
+      });
+  }
 }
 
-module.exports = new UserController();
+module.exports = UsersController;
