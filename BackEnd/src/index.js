@@ -4,16 +4,18 @@ const routes = require('./routes');
 const cors = require('cors');
 const session = require('express-session');
 const passport = require('passport');
+const mongoose = require('mongoose');
 
 // Inicializar configuración de dotenv
 dotenv.config();
-
 
 require('./utils/passport-config');
 
 const app = express();
 const port = process.env.PORT || 3000;
-const dbUrl = process.env.DB_URL || "mongodb+srv://Uziel:admin@web.g4sbtuw.mongodb.net/?retryWrites=true&w=majority&appName=web";
+const dbUrl =
+  process.env.DB_URL ||
+  'mongodb+srv://Uziel:admin@web.g4sbtuw.mongodb.net/?retryWrites=true&w=majority&appName=web';
 
 // Middleware
 app.use(express.json());
@@ -46,4 +48,3 @@ mongoose
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}`);
 });
-
