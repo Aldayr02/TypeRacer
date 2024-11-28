@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Importar CommonModule
 import { AuthStateDirective } from '../../../directives/auth-state.directive';
+import { UploadService } from '../../../services/upload.service';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,8 @@ import { AuthStateDirective } from '../../../directives/auth-state.directive';
 export class HeaderComponent implements OnInit, OnDestroy {
   private authStorageListener!: () => void;
   isAuthenticated: boolean = false;
+
+  constructor(private uploadService: UploadService) {}
 
   ngOnInit() {
     // Verificar si estamos en el navegador
@@ -46,5 +49,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // Método privado para actualizar el estado de autenticación
   private updateAuthStatus() {
     this.isAuthenticated = this.checkAuthenticationStatus(); // Actualiza el estado de autenticación
+  }
+
+  changeBG() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.click();
+    fileInput.onchange = (e: any) => {
+      const file = e.target.files[0];
+      this.uploadService.uploadImage(file);
+    };
   }
 }

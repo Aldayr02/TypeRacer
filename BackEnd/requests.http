@@ -6,3 +6,16 @@ Content-Type: application/json
     "password": "Password1!"
 }
 
+# POST /object-storage/archivos: Carga un archivo guardado dentro de tu bucket.
+###
+POST http://localhost:3000/change-bg/upload
+Content-Type: multipart/form-data; boundary=mi-boundary
+
+--mi-boundary
+Content-Disposition: form-data; name="foto"; filename="cheems.png"
+Content-Type: image/png
+
+< C:\Users\PC\Pictures\cheems.png
+--mi-boundary--
+
+###
