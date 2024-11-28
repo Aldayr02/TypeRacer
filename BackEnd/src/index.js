@@ -1,12 +1,14 @@
 const express = require('express');
 const { config } = require('dotenv');
 const routes = require('./routes');
-const { Server } = require('socket.io');
-const leaderboardController = require('./controllers/leaderboard-controller');
 const cors = require('cors');
+const session = require('express-session');
+const passport = require('passport');
 
 // init dotenv config
 config();
+
+require('./utils/passport-config');
 
 // variables
 const app = express();
@@ -15,22 +17,21 @@ const port = process.env.PORT || 3000;
 // middleware
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:4200' }));
+
+app.use(
+  session({
+    secret: 'google_auth',
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(routes);
 
 // listen
 const server = app.listen(port, () => {
   console.log(`App running in port ${port}`);
-});
-
-const io = new Server(server);
-
-io.on('connection', (socket) => {
-  console.log(`New client connected: ${socket.id}`);
-
-  // Delegar manejo al controlador
-  leaderboardController.socketHandler(socket, io);
-
-  socket.on('disconnect', () => {
-    console.log(`Client disconnected: ${socket.id}`);
-  });
 });

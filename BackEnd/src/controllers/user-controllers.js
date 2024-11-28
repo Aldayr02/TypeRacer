@@ -1,26 +1,42 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/users.models');
 
 class UserController {
-  login = (req, res) => {
-    const { username, password } = req.body;
+  login = async (req, res) => {
+    const { email, password } = req.body;
 
-    // Hardcoded credentials for testing
-    const hardcodedUsername = 'uziel@gmail.com';
-    const hardcodedPassword = 'Hola1234';
+    try {
+      // Buscar usuario por email
+      const user = await User.findOne({ email });
 
-    if (username === hardcodedUsername && password === hardcodedPassword) {
-      // Create a token
-      const token = jwt.sign({ username }, 'your_jwt_secret', { expiresIn: '1h' });
+      if (!user) {
+        return res.status(401).json({
+          message: 'Invalid email or password',
+        });
+      }
+
+      // Verificar que la contraseña coincida (sin cifrado)
+      if (user.password !== password) {
+        return res.status(401).json({
+          message: 'Invalid email or password',
+        });
+      }
+
+      // Crear token
+      const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
+        expiresIn: '1h',
+      });
 
       return res.json({
         message: 'Login successful',
         token,
       });
+    } catch (error) {
+      console.error('Login error:', error);
+      return res.status(500).json({
+        message: 'Internal server error',
+      });
     }
-
-    return res.status(401).json({
-      message: 'Invalid credentials',
-    });
   };
 }
 

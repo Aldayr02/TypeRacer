@@ -1,6 +1,6 @@
-import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SocketService } from '../../../services/socket.service';
+import { io, Socket } from 'socket.io-client';
 
 @Component({
   selector: 'app-leaderboard',
@@ -11,24 +11,40 @@ import { SocketService } from '../../../services/socket.service';
 })
 export class LeaderboardComponent implements OnInit {
   leaderboard: { username: string; score: number }[] = [];
+  private socket!: Socket;
 
-  constructor(
-    private socketService: SocketService,
-    private cdr: ChangeDetectorRef
-  ) {
-    console.log('LeaderboardComponent constructor Start');
-    this.socketService
-      .on<{ username: string; score: number }[]>('update-leaderboard')
-      .subscribe((data) => {
-        console.log('Leaderboard updated:', data);
-        this.leaderboard = data;
-        this.cdr.detectChanges(); // Forzar la detección de cambios
-        console.log('Leaderboard:', this.leaderboard);
-      });
-    console.log('LeaderboardComponent constructor END');
+  constructor() {
+    // Establecer conexión con el servidor Socket.IO
+    this.socket = io('http://localhost:3000');
+    // this.socket.on('connect', () => {
+    //   console.log('Connected to Socket.IO server:', this.socket.id);
+    // });
+    // this.socket.on('connect_error', (err) => {
+    //   console.error('Connection error:', err.message);
+    // });
+    // this.socket.on('disconnect', () => {
+    //   console.warn('Disconnected from Socket.IO server');
+    // });
+    // // Escuchar el evento de actualización del leaderboard
+    // this.socket.on(
+    //   'update-leaderboard',
+    //   (data: { username: string; score: number }[]) => {
+    //     this.leaderboard = data;
+    //     console.log(this.leaderboard);
+    //   }
+    // );
   }
 
   ngOnInit(): void {
-    console.log('LeaderboardComponent ngOnInit');
+    console.log('OnInit');
   }
+
+  // emitEvent(event: string, data: any): void {
+  //   if (this.socket?.connected) {
+  //     this.socket.emit(event, data);
+  //     console.log('Socket Emit');
+  //   } else {
+  //     console.log('Socket not connected. Cannot emit event:', event);
+  //   }
+  // }
 }

@@ -4,6 +4,7 @@ import { RegisterComponent } from './components/paths/register/register.componen
 import { HomeComponent } from './components/pages/home/home.component';
 import { LeaderboardComponent } from './components/pages/leaderboard/leaderboard.component';
 import { NotFoundComponent } from './components/pages/not-found/not-found.component';
+import { TyperacerComponent } from './components/pages/typeracer/typeracer.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -11,5 +12,6 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'home', component: HomeComponent },
   { path: 'board', component: LeaderboardComponent },
+  { path: 'type', component: TyperacerComponent },
   { path: '**', component: NotFoundComponent },
 ];

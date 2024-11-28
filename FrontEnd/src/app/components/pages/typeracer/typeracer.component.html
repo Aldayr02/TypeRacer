@@ -1,0 +1,30 @@
+<div class="typeracer-container">
+  <h2>Typeracer</h2>
+
+  <p class="target-text">
+    <span
+      *ngFor="let char of targetText.split(''); let i = index"
+      [ngClass]="{
+        correct: userInput[i] === char,
+        incorrect: userInput[i] && userInput[i] !== char
+      }"
+    >
+      {{ char }}
+    </span>
+  </p>
+
+  <textarea
+    rows="4"
+    cols="50"
+    (input)="handleInput($event)"
+    [value]="userInput"
+    placeholder="Escribe aquí..."
+  ></textarea>
+
+  <div class="stats">
+    <p>WPM: {{ wpm }}</p>
+    <p>Precisión: {{ accuracy }}%</p>
+  </div>
+
+  <button (click)="reset()">Reiniciar</button>
+</div>
