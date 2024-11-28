@@ -1,24 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { UrlImage } from '../components/types/url-image';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UploadService {
-
   private UrlBg = 'http://localhost:3000/change-bg/upload';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    console.log('service');
+  }
 
   uploadImage(file: File): Observable<UrlImage> {
     const formData = new FormData();
-    formData.append('file', file, file.name);
+    console.log(this.UrlBg);
+    formData.append('foto', file, file.name); // 'foto' debe coincidir con el nombre en tu backend
     console.log('formData', formData);
     console.log('file', file);
 
-    return this.http.post<UrlImage>(this.UrlBg, formData);
+    return this.http.post<UrlImage>(this.UrlBg, formData).pipe(
+      catchError((error) => {
+        console.error('Error al subir la imagen', error);
+        throw error;
+      })
+    );
   }
-
 }

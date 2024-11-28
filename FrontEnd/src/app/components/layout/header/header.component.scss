@@ -4,6 +4,9 @@ $text-color: #fde5ff;
 $background-color: #7a1f28;
 $button-color: #ea4959;
 
+// URL de la imagen en S3 (asegúrate de que sea pública o que esté accesible)
+$background-image-url: 'https://frontend-bucket-733377.s3.us-east-1.amazonaws.com/cheems.png';  // Asegúrate de reemplazar esto con la URL correcta
+
 // Mixins
 @mixin flex-center {
   display: flex;
@@ -12,7 +15,11 @@ $button-color: #ea4959;
 
 // Header Styles
 .header {
-  background-color: $background-color;
+  background-image: url(#{$background-image-url});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; // Asegura que la imagen no se repita
+  min-height: 80; // Cambié 'height' por 'min-height' para que el header se ajuste a la imagen
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1rem 0;
 
@@ -22,6 +29,7 @@ $button-color: #ea4959;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
+    z-index: 1; // Asegura que el contenido esté sobre la imagen de fondo
 
     .logo {
         @include flex-center;
@@ -40,49 +48,47 @@ $button-color: #ea4959;
     title {
       font-size: 1.5rem;
       font-weight: bold;
-
-      
     }
 
-    nav{
-        .nav-list{
-            @include flex-center;
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            
+    nav {
+      .nav-list {
+        @include flex-center;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .nav-item {
+        margin-left: 1.5rem;
+
+        &:first-child {
+          margin-left: 0;
         }
-        .nav-item {
-          margin-left: 1.5rem;
-      
-          &:first-child {
-            margin-left: 0;
-          }
+      }
+
+      .nav-link {
+        color: $text-color;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: $primary-color;
         }
 
-        .nav-link {
+        &--button {
+          background-color: $button-color;
           color: $text-color;
-          text-decoration: none;
-          font-weight: 500;
-          transition: color 0.3s ease;
-      
+          padding: 0.5rem 1rem;
+          border-radius: 4px;
+          transition: background-color 0.3s ease;
+
           &:hover {
-            color: $primary-color;
-          }
-      
-          &--button {
-            background-color: $button-color;
+            background-color: darken($button-color, 50%);
             color: $text-color;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-      
-            &:hover {
-              background-color: darken($button-color, 50%);
-              color: $text-color;
-            }
           }
         }
+      }
     }
   }
 }

@@ -52,12 +52,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   changeBG() {
+    console.log('change');
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.click();
     fileInput.onchange = (e: any) => {
       const file = e.target.files[0];
-      this.uploadService.uploadImage(file);
+      if (file) {
+        this.uploadService.uploadImage(file).subscribe({
+          next: (response) => {
+            console.log('Archivo subido con éxito:', response);
+            // Aquí puedes hacer algo con la respuesta, como mostrar una notificación
+          },
+          error: (error) => {
+            console.error('Error al subir la imagen:', error);
+            // Manejar el error, como mostrar un mensaje de error en la UI
+          },
+        });
+      }
     };
   }
 }
