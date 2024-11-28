@@ -9,8 +9,7 @@ const s3 = new S3Client({
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
         sessionToken: process.env._AWS_SESSION_TOKEN
     },
-    endpoint: `https://s3.${process.env._REGION}.amazonaws.com`, // Set the correct endpoint based on your bucket's region
-	forcePathStyle: false, // Optional: Use the virtual-hosted–style URLs
+    endpoint: `https://s3.${process.env.AWS_REGION}.amazonaws.com`, // Set the correct endpoint based on your bucket's region
 });
 
 const s3Storage = multers3({
