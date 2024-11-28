@@ -1,43 +1,49 @@
-const jwt = require('jsonwebtoken');
 const User = require('../models/users.models');
 
-class UserController {
-  login = async (req, res) => {
-    const { email, password } = req.body;
+class UsersController {
+  register(req, res) {
+    const data = {
+      name: req.body.name,
+      email: req.body.email,
+      //password: hashPassword(req.body.password),
+      password: req.body.password
+    };
 
-    try {
-      // Buscar usuario por email
-      const user = await User.findOne({ email });
-
-      if (!user) {
-        return res.status(401).json({
-          message: 'Invalid email or password',
-        });
-      }
-
-      // Verificar que la contraseña coincida (sin cifrado)
-      if (user.password !== password) {
-        return res.status(401).json({
-          message: 'Invalid email or password',
-        });
-      }
-
-      // Crear token
-      const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
-        expiresIn: '1h',
+    User.create(data)
+      .then((response) => {
+        res.status(201).send(response);
+      })
+      .catch((e) => {
+        res.status(400).send('Failed to create user' + e);
       });
+  }
 
-      return res.json({
-        message: 'Login successful',
-        token,
+  login(req, res) {
+    const data = {
+      email: req.body.email,
+      //password: hashPassword(req.body.password)
+      password: req.body.password
+    };
+
+    User.findOne(data)
+      .then((response) => {
+        if (response == null) {
+          throw new Error(`${response.errors.message}`);
+        }
+        const user_data = {
+          name: response.name,
+          email: response.email,
+        };
+        const token = "123";
+        res.status(200).send({ token });
+
+        //const send_token = create(user_data);
+        //res.status(response_status.SUCCESS).send({ token: send_token });
+      })
+      .catch((e) => {
+        res.status(400).send(`Invalid credentials - ${e}`);
       });
-    } catch (error) {
-      console.error('Login error:', error);
-      return res.status(500).json({
-        message: 'Internal server error',
-      });
-    }
-  };
+  }
 }
 
-module.exports = new UserController();
+module.exports = UsersController;
