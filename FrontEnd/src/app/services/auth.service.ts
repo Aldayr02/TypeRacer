@@ -3,21 +3,20 @@ import { LoginService } from './login.service';
 import { BehaviorSubject, tap } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   private token = '';
 
   tokenKey: BehaviorSubject<string> = new BehaviorSubject('');
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService) {}
 
-  login(credentials: { username: string; password: string }) {
+  login(credentials: { email: string; password: string }) {
     return this.loginService.login(credentials).pipe(
-      tap(response => {
+      tap((response) => {
         const token = response.token;
-        this.setToken(token); 
+        this.setToken(token);
         console.log('Token guardado:', token);
       })
     );

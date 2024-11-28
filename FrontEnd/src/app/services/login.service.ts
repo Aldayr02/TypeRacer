@@ -4,15 +4,17 @@ import { Observable } from 'rxjs';
 import { LoginResponse } from '../components/types/loginResponse';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
-
   private loginUrl = 'http://localhost:3000/users/login';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  login(credentials: { username: string, password: string }): Observable<LoginResponse> {
+  login(credentials: {
+    email: string;
+    password: string;
+  }): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.loginUrl, credentials);
   }
 }

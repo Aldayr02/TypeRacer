@@ -21,6 +21,9 @@ export class GoogleService {
     const token = params.get('token');
     if (token) {
       localStorage.setItem('authToken', token); // Almacenar el token en localStorage
+
+      // Notificar a la vista que el token ha cambiado
+      window.dispatchEvent(new Event('storage'));
     }
   }
 }

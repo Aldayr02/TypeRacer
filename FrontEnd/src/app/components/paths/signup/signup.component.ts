@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -11,7 +11,7 @@ import { AuthService } from '../../../services/auth.service';
 import { GoogleService } from '../../../services/google.service';
 
 @Component({
-  selector: 'app-signup',
+  selector: 'app-login',
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, MaterialModule],
   templateUrl: './signup.component.html',
@@ -26,22 +26,35 @@ export class SignupComponent {
     private googleService: GoogleService
   ) {
     this.form = formBuilder.group({
-      name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
   }
 
-  signup() {
+  login() {
     if (this.form.valid) {
-      console.log('Enviar datos...', this.form);
+      console.log('Formulario válido:', this.form.value);
       const credentials = {
-        username: this.form.value.email,
+        email: this.form.value.email,
         password: this.form.value.password,
       };
-      this.authService.login(credentials).subscribe((response) => {
-        console.log('Respuesta del servidor:', response);
-      });
+      console.log(credentials);
+
+      // Llamamos al servicio de login
+      this.authService.login(credentials).subscribe(
+        (response) => {
+          console.log('Usuario autenticado exitosamente', response);
+          // Guardamos el token en localStorage (o donde lo necesites)
+          localStorage.setItem('authToken', response.token);
+          // Redirigir al usuario o mostrar mensaje de éxito
+          window.location.href = 'http://localhost:4200/home';
+        },
+        (error) => {
+          console.log(error);
+          console.error('Error al autenticar al usuario', error);
+          alert('Credenciales incorrectas');
+        }
+      );
     } else {
       alert('Debes llenar todos los campos');
     }
@@ -54,13 +67,11 @@ export class SignupComponent {
   checkForAuthToken(): void {
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
-    console.log('Token recibido:', token); // Agrega un console.log para verificar el token
+    console.log('Token recibido:', token);
     if (token) {
-      // Almacenar el token en localStorage
       localStorage.setItem('authToken', token);
       console.log('Token guardado en localStorage');
-      // Redirigir al usuario a la página /home
-      window.location.href = 'http://localhost:4200/home'; // Aquí cambia la ruta de destino
+      window.location.href = 'http://localhost:4200/home';
     } else {
       console.log('No se recibió token en la URL');
     }
